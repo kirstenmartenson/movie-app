@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 # #   Character.create(name: 'Luke', movie: movies.first)
 # Actor.create({first_name: "Benedict", last_name: "Cumberbatch", known_for: "Sherlock"})
+
 movie = Movie.create({
   title: "Titanic",
   year: 1997,
