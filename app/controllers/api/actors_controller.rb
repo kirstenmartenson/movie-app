@@ -1,8 +1,19 @@
 class Api::ActorsController < ApplicationController
 
-  def actor
-    @actor = Actor.find_by(id: 2) # Tom Cruise in Mission impossible
-    render 'actor.json.jbuilder'
+  # def actor
+  #   @actor = Actor.find_by(id: 2) # Tom Cruise in Mission impossible
+  #   render 'actor.json.jbuilder'
+  # end
+
+  def index
+    @actors = Actor.all
+    render 'actors.json.jbuilder'
+  end
+
+  def query_actor
+    id_number = params ["id"]
+    @actor = Actor.find_by (id: id_number)
+    render 'query_actor.json.jbuilder'
   end
 
   def create
@@ -14,8 +25,16 @@ class Api::ActorsController < ApplicationController
       age: params["age"]
       )
     
-    @actor.save
-    render 'create.json.jbuilder'
+    if @actor.save
+      render 'create.json.jbuilder'
+    else
+      render json: {errors: @actor.errors.full_messages}, status: :unprocessable_entity
+    end 
+  end
+
+  def show
+    @actor = Actor.find(params[:id])
+    render 'show.json.jbuilder'
   end
 
   def update
@@ -25,7 +44,10 @@ class Api::ActorsController < ApplicationController
     @actor.gender = params["gender"] || @actor.gender
     @actor.age = params["age"] || @actor.age
 
-    @actor.save
+    if @actor.save
     render 'show.json.jbuilder'
+    else
+      render json: {errors: @actor.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 end

@@ -1,1 +1,1 @@
-json.movie @movie
+json.actor @actor

@@ -29,4 +29,32 @@ movie = Movie.create({
   title: "Avengers: Infinity War",
   year: 2018,
   plot: "An unprecedented cinematic journey ten years in the making and spanning the entire Marvel Cinematic Universe, Marvel Studios’ Avengers: Infinity War brings to the screen the ultimate, deadliest showdown of all time."
-  })
+  }) 
+
+actor = Actor.new ({
+  first_name: "Kate",
+  last_name: "Winslet",
+  known_for: "Titanic"
+}) 
+actor.save
+
+actor = Actor.new ({
+  first_name: "Zoe",
+  last_name: "Saldana",
+  known_for: "Avator"
+}) 
+actor.save
+
+actor = Actor.new ({
+  first_name: "Harrison",
+  last_name: "Ford",
+  known_for: "Star Wars"
+})
+actor.save
+
+actor = Actor.new ({
+  first_name: "Scarlett",
+  last_name: "Johansson",
+  known_for: "Avengers"
+})
+actor.save

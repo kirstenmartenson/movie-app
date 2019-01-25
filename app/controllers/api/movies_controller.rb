@@ -40,9 +40,11 @@ class Api::MoviesController < ApplicationController
       english: params["english"],
       )
 
-    @movie.save
-    
-    render "create.json.jbuilder"
+    if @movie.save 
+        render 'show.json.jbuilder' #happy path
+    else
+      render json: {errors: @movie.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -52,14 +54,24 @@ class Api::MoviesController < ApplicationController
 
   def update
     @movie = Movie.find(params[:id])
+
     @movie.title = params["title"] || @movie.title
     @movie.year = params["year"] || @movie.year
     @movie.plot = params["plot"] || @movie.plot
     @movie.director = params["director"] || @movie.director
     @movie.english = params["english"] || @movie.english
     
-    @movie.save
-    render 'show.json.jbuilder'
+    if @movie.save 
+        render 'show.json.jbuilder' #happy path
+    else
+      render json: {errors: @movie.errors.full_messages}, status: :unprocessable_entity
+    end 
   end
-
+  
+  def destroy
+      @movie = movie.find(params[:id])
+      @movie.destroy
+      render json: {message: "Movie has been successfully destroyed"}
+  end
+  
 end
