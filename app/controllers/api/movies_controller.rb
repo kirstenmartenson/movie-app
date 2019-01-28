@@ -26,10 +26,10 @@ class Api::MoviesController < ApplicationController
   # end
 
 
-  def index
-    @movies = Movie.all
-    render 'movies.json.jbuilder'
-  end
+def index
+  @movies = Movie.where(english: true)
+  render "index.json.jbuilder"
+end
 
   def create 
     @movie = Movie.new(

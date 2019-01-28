@@ -5,9 +5,14 @@ class Api::ActorsController < ApplicationController
   #   render 'actor.json.jbuilder'
   # end
 
+  # def index
+  #   @actors = Actor.all
+  #   render 'actors.json.jbuilder'
+  # end
+
   def index
-    @actors = Actor.all
-    render 'actors.json.jbuilder'
+    @actors = Actor.all.order(age: :desc)
+    render "index.json.jbuilder"
   end
 
   def query_actor
@@ -50,4 +55,11 @@ class Api::ActorsController < ApplicationController
       render json: {errors: @actor.errors.full_messages}, status: :unprocessable_entity
     end
   end
+
+  def destroy
+    @actor = Actor.find(params[:id])
+    render json: {message: "The actor is destroyed"}
+  end
+
+
 end
