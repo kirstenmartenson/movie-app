@@ -1,5 +1,7 @@
 class Movie < ApplicationRecord
-  validates :year, numericality: true
-  validates :title, :year, presence: true
-  validates :plot, length: {in: 5..50}
+  validates :title, presence: true
+  validates :plot, length: {in: 10..1000}
+  validates :year, numericality: {less_than: 2020}
+
+  has_many :actors
 end

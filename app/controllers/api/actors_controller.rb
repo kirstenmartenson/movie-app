@@ -12,45 +12,44 @@ class Api::ActorsController < ApplicationController
 
   def index
     @actors = Actor.all.order(age: :desc)
-    render "index.json.jbuilder"
+    render 'actors_index.json.jbuilder'
   end
 
-  def query_actor
-    id_number = params ["id"]
-    @actor = Actor.find_by (id: id_number)
-    render 'query_actor.json.jbuilder'
+  def show
+    @actor = Actor.find(params[:id])
+    render 'actor_show.json.jbuilder'
   end
 
   def create
     @actor = Actor.new(
-      first_name: params["first_name"],
-      last_name: params["last_name"],
-      known_for: params["known_for"],
-      gender: params["gender"],
-      age: params["age"]
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      known_for: params[:known_for],
+      gender: params[:gender],
+      age: params[:age],
+      movie_id: params[:movie_id]
       )
     
     if @actor.save
-      render 'create.json.jbuilder'
+      render 'actor_show.json.jbuilder'
     else
       render json: {errors: @actor.errors.full_messages}, status: :unprocessable_entity
     end 
   end
 
-  def show
-    @actor = Actor.find(params[:id])
-    render 'show.json.jbuilder'
-  end
+
 
   def update
-    @actor.first_name = params["first_name"] || @actor.first_name
-    @actor.last_name = params["last_name"] || @actor.last_name
-    @actor.known_for = params["known_for"] || @actor.known_for
-    @actor.gender = params["gender"] || @actor.gender
-    @actor.age = params["age"] || @actor.age
+    @actor = Actor.find(params[:id])
+    @actor.first_name = params[:first_name] || @actor.first_name
+    @actor.last_name = params[:last_name] || @actor.last_name
+    @actor.known_for = params[:known_for] || @actor.known_for
+    @actor.gender = params[:gender] || @actor.gender
+    @actor.age = params[:age] || @actor.age
+    @actor.movie_id = params[:movie_id]
 
     if @actor.save
-    render 'show.json.jbuilder'
+      render 'actor_show.json.jbuilder'
     else
       render json: {errors: @actor.errors.full_messages}, status: :unprocessable_entity
     end
@@ -58,6 +57,8 @@ class Api::ActorsController < ApplicationController
 
   def destroy
     @actor = Actor.find(params[:id])
+    
+    @actor.destroy
     render json: {message: "The actor is destroyed"}
   end
 
