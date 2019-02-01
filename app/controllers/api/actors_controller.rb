@@ -9,6 +9,7 @@ class Api::ActorsController < ApplicationController
   #   @actors = Actor.all
   #   render 'actors.json.jbuilder'
   # end
+  before_action :authenticate_admin, except: [:index, :show]
 
   def index
     @actors = Actor.all.order(age: :desc)
